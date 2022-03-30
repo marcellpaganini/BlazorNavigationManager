@@ -19,4 +19,6 @@
   * Inject NavigationManager
   * NavigateTo()  
     * Optional parameters (bool forceLoad, bool replace)
-  * LocationChanged()   
+  * LocationChanged()  
+    * Implement IDisposable
+    * Location + IsNavigationIntercepted 

@@ -1,0 +1,38 @@
+﻿@page "/navigate"
+@using Microsoft.Extensions.Logging 
+@implements IDisposable
+@inject ILogger<Navigate> Logger
+@inject NavigationManager NavigationManager
+
+<h1>Navigate in component code example</h1>
+
+<button class="btn btn-primary" @onclick="NavigateToCounterComponent">
+    Navigate to Counter Programatically
+</button>
+
+<NavLink class="nav-link" href="counter">
+    <span class="oi oi-browser" aria-hidden="true"></span> Navigate to Counter Via Browser
+</NavLink>
+
+@code {
+    private void NavigateToCounterComponent()
+    {
+        NavigationManager.NavigateTo("counter");
+    }
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += HandleLocationChanged;
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        string navigation = e.IsNavigationIntercepted ? " Navigation intercepted by the browser" : " Navigation handled programatically";
+        Logger.LogInformation($"URL of new location: {e.Location} - {navigation}");
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= HandleLocationChanged;
+    }
+}

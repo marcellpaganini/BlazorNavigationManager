@@ -1,0 +1,57 @@
+﻿@page "/querystrings"
+@inject NavigationManager NavManager
+
+
+<h3>QueryStrings</h3>
+
+        <label>
+            <span class="required">City</span>
+            <input type="text" @bind="City" @oninput="SubmitCity" />
+        </label>
+
+        <label>
+            <span class="required">Year</span>
+            <input type="date" @bind="Date" @oninput="SubmitDate"/>
+        </label>
+
+        <button @onclick="Submit">Send</button>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? City { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public DateTime? Date { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "name")]
+    public string[]? Names { get; set; }
+
+    private void SubmitCity(ChangeEventArgs e) 
+    {   
+        @* City = e.Value?.ToString();
+        NavManager.NavigateTo(NavManager.GetUriWithQueryParameter("city", City)); *@
+    }
+
+    private void SubmitDate(ChangeEventArgs e) 
+    {   
+        @* e.Value ??= DateTime.Now;
+        Date = Convert.ToDateTime(e.Value.ToString());
+        NavManager.NavigateTo(NavManager.GetUriWithQueryParameter("date", Date)); *@
+    }
+
+    private void Submit() 
+    {
+        Names = new string[] {"Mike", "Anne"};
+
+        IReadOnlyDictionary<string, object?> dictionary = new Dictionary<string, object?>() 
+            {
+                {"city", City},
+                {"date", Date},
+                {"name", Names}
+            };
+        NavManager.NavigateTo(NavManager.GetUriWithQueryParameters(dictionary));
+    }
+}

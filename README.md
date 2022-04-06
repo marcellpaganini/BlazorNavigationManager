@@ -22,3 +22,6 @@
   * LocationChanged()  
     * Implement IDisposable
     * Location + IsNavigationIntercepted 
+  * Query strings
+    * GetUriWithQueryParameter()  
+    * GetUriWithQueryParameters()  
